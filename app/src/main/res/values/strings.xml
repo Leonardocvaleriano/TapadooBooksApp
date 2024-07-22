@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Tapadoo Books App</string>
+    <string name="welcome_heading">Welcome,</string>
+    <string name="welcome_body">to the Tapadoo books collection</string>
+    <string name="button_details">Details</string>
+    <string name="error_title">Oops, something went wrong</string>
+    <string name="reload_button">Reload</string>
 </resources>

@@ -1,10 +1,17 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.compose.compiler)
+
+
+    // Ktor Client serialization
     kotlin("plugin.serialization") version (libs.versions.kotlin)
 
+    // Hilt
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+
+
 
 }
 
@@ -81,7 +88,9 @@ dependencies {
 
     // DI - Hilt
     implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
     kapt(libs.hilt.android.compiler)
+
 
     kapt.apply {
         correctErrorTypes = true

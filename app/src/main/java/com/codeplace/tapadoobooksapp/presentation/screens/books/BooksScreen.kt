@@ -1,0 +1,117 @@
+package com.codeplace.tapadoobooksapp.presentation.screens.books
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import com.codeplace.tapadoobooksapp.R
+import com.codeplace.tapadoobooksapp.data.network.utils.NetworkError
+import com.codeplace.tapadoobooksapp.domain.models.Book
+import com.codeplace.tapadoobooksapp.presentation.components.BookCard
+import com.codeplace.tapadoobooksapp.presentation.components.FormatIntenger
+import com.codeplace.tapadoobooksapp.presentation.screens.core.ErrorScreen
+import com.codeplace.tapadoobooksapp.presentation.screens.core.ErrorScreenRoot
+import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSize4XL
+import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeL
+import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeM
+import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeXL
+import com.example.compose.TapadooBooksAppTheme
+
+
+@Composable
+fun BooksScreen(
+    books: List<Book>,
+    isLoading: Boolean,
+    error: NetworkError?,
+    modifier: Modifier = Modifier,
+) {
+    if (isLoading) {
+        Box(modifier = modifier.fillMaxSize(),
+            contentAlignment = androidx.compose.ui.Alignment.Center
+        ) {
+            CircularProgressIndicator(
+                color = MaterialTheme.colorScheme.primary
+            )
+        }
+    } else if (error != null) {
+        ErrorScreenRoot(error = error.name)
+    } else {
+        LazyColumn(
+            modifier = modifier.padding(
+                top = SpaceSize4XL,
+                start = SpaceSizeM,
+                end = SpaceSizeM,
+                bottom = SpaceSize4XL
+            ), verticalArrangement = Arrangement.spacedBy(SpaceSizeL)
+        ) {
+            item {
+                Text(
+                    text = stringResource(id = R.string.welcome_heading),
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Text(
+                    text = stringResource(id = R.string.welcome_body),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+
+            items(books) { bookItem ->
+                BookCard(
+                    title = bookItem.title,
+                    author = bookItem.author,
+                    isbn = bookItem.isbn,
+                    currencyCode = bookItem.currencyCode,
+                    price = bookItem.price
+                )
+
+            }
+        }
+    }
+}
+
+
+@Preview
+@Composable
+fun BooksScreenPreview() {
+
+    TapadooBooksAppTheme {
+    val booksListMock: ArrayList<Book> = ArrayList()
+    val baseTitle:String = "Lorem ipsum"
+    val increasedTitle = mutableListOf<String>()
+    var currentTitle = baseTitle
+
+    for (i in 1..7) {
+        increasedTitle.add(currentTitle)
+        currentTitle += baseTitle
+
+        booksListMock.add(
+            Book(
+                id = 1,
+                title = currentTitle,
+                author = "John",
+                isbn = "22222",
+                price = 3333,
+                currencyCode = "€"
+            )
+        )
+
+    }
+
+    BooksScreen(
+        books = booksListMock,
+        isLoading = false,
+        error = null
+    )
+    }
+}
