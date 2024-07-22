@@ -2,6 +2,7 @@ package com.codeplace.tapadoobooksapp.presentation.screens.books
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,6 +24,7 @@ import com.codeplace.tapadoobooksapp.presentation.screens.core.ErrorScreenRoot
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSize4XL
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeL
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeM
+import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeS
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeXL
 import com.example.compose.TapadooBooksAppTheme
 
@@ -35,7 +37,8 @@ fun BooksScreen(
     modifier: Modifier = Modifier,
 ) {
     if (isLoading) {
-        Box(modifier = modifier.fillMaxSize(),
+        Box(
+            modifier = modifier.fillMaxSize(),
             contentAlignment = androidx.compose.ui.Alignment.Center
         ) {
             CircularProgressIndicator(
@@ -51,19 +54,21 @@ fun BooksScreen(
                 start = SpaceSizeM,
                 end = SpaceSizeM,
                 bottom = SpaceSize4XL
-            ), verticalArrangement = Arrangement.spacedBy(SpaceSizeL)
+            ), verticalArrangement = Arrangement.spacedBy(SpaceSizeM)
         ) {
             item {
-                Text(
-                    text = stringResource(id = R.string.welcome_heading),
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Text(
-                    text = stringResource(id = R.string.welcome_body),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                Column(verticalArrangement = Arrangement.spacedBy(SpaceSizeM)) {
+                    Text(
+                        text = stringResource(id = R.string.headline_hello),
+                        style = MaterialTheme.typography.headlineMedium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        text = stringResource(id = R.string.title_tapadoo_books),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
 
             items(books) { bookItem ->
@@ -74,7 +79,6 @@ fun BooksScreen(
                     currencyCode = bookItem.currencyCode,
                     price = bookItem.price
                 )
-
             }
         }
     }
@@ -86,32 +90,32 @@ fun BooksScreen(
 fun BooksScreenPreview() {
 
     TapadooBooksAppTheme {
-    val booksListMock: ArrayList<Book> = ArrayList()
-    val baseTitle:String = "Lorem ipsum"
-    val increasedTitle = mutableListOf<String>()
-    var currentTitle = baseTitle
+        val booksListMock: ArrayList<Book> = ArrayList()
+        val baseTitle = "Lorem ipsum"
+        val increasedTitle = mutableListOf<String>()
+        var currentTitle = baseTitle
 
-    for (i in 1..7) {
-        increasedTitle.add(currentTitle)
-        currentTitle += baseTitle
+        for (i in 1..7) {
+            increasedTitle.add(currentTitle)
+            currentTitle += baseTitle
 
-        booksListMock.add(
-            Book(
-                id = 1,
-                title = currentTitle,
-                author = "John",
-                isbn = "22222",
-                price = 3333,
-                currencyCode = "€"
+            booksListMock.add(
+                Book(
+                    id = 1,
+                    title = currentTitle,
+                    author = "John",
+                    isbn = "22222",
+                    price = 3333,
+                    currencyCode = "€"
+                )
             )
+
+        }
+
+        BooksScreen(
+            books = booksListMock,
+            isLoading = false,
+            error = null
         )
-
-    }
-
-    BooksScreen(
-        books = booksListMock,
-        isLoading = false,
-        error = null
-    )
     }
 }

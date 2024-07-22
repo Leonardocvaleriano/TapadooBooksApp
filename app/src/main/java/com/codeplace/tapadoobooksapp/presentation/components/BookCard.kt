@@ -3,6 +3,7 @@ package com.codeplace.tapadoobooksapp.presentation.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -16,12 +17,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.codeplace.tapadoobooksapp.R
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSize2XS
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSize3XS
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSize4XS
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeM
+import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeS
+import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeXS
 import com.example.compose.TapadooBooksAppTheme
 import java.math.BigDecimal
 import java.text.DecimalFormat
@@ -37,11 +42,10 @@ fun BookCard(
 ) {
     Card(
         onClick = {},
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
         //elevation = CardDefaults.cardElevation(0.dp)
         modifier = modifier
             .fillMaxWidth()
-
     ) {
         Row(
             modifier = modifier
@@ -51,50 +55,53 @@ fun BookCard(
         ) {
             Column(
                 modifier = modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(SpaceSize2XS)
+                verticalArrangement = Arrangement.spacedBy(SpaceSizeS)
             ) {
-                Text(
-                    modifier = modifier.fillMaxWidth(0.9f),
-                    text = FormatTitleSize(title),
-                    style = MaterialTheme.typography.titleMedium
-                )
-
-                Text(
-                    text = author,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Text(
-                    text = isbn,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Row(horizontalArrangement = Arrangement.spacedBy(SpaceSize3XS)) {
+                Column(verticalArrangement = Arrangement.spacedBy(SpaceSize3XS)) {
                     Text(
-                        text = currencyCode,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.primary
-
+                        modifier = modifier.fillMaxWidth(0.9f),
+                        text = FormatTitleSize(title),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
+
                     Text(
-                        text = FormatIntenger(price),
+                        text = author,
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onSurface
 
                     )
                 }
+                Text(
+                    text = isbn,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                Text(
+                    text = stringResource(R.string.button_view_details),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Medium
+                )
 
             }
             Column() {
-                Button(
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Transparent,
-                        contentColor = MaterialTheme.colorScheme.primary
-                    ),
-                    onClick = { /*TODO*/ }) {
+                Row(horizontalArrangement = Arrangement.spacedBy(SpaceSize4XS)) {
                     Text(
-                        text = stringResource(R.string.button_details),
-                        style = MaterialTheme.typography.labelMedium
+                        text = FormatIntenger(price),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Medium
+
                     )
+                    Text(
+                        text = currencyCode,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+
                 }
+
             }
 
         }
@@ -110,9 +117,9 @@ fun BookCardPreview() {
 
         BookCard(
             title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            author = "leo",
-            isbn = "22222",
-            price = 222,
+            author = "Lorem ipsum",
+            isbn = "22222-333",
+            price = 2222,
             currencyCode = "Euro"
         )
     }

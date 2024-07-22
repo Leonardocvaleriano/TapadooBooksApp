@@ -54,11 +54,10 @@ private val DarkColorScheme = darkColorScheme(
     surfaceContainer = surfaceContainerDark,
     surfaceContainerHigh = surfaceContainerHighDark,
     surfaceContainerHighest = surfaceContainerHighestDark,
-
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = primaryLight,
+    primary = primaryKey,
     onPrimary = onPrimaryLight,
     primaryContainer = primaryContainerLight,
     onPrimaryContainer = onPrimaryContainerLight,
@@ -93,6 +92,7 @@ private val LightColorScheme = lightColorScheme(
     surfaceContainer = surfaceContainerLight,
     surfaceContainerHigh = surfaceContainerHighLight,
     surfaceContainerHighest = surfaceContainerHighestLight,
+
 )
 
 
@@ -100,7 +100,7 @@ private val LightColorScheme = lightColorScheme(
 fun TapadooBooksAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

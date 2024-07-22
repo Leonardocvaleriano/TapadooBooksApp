@@ -16,8 +16,7 @@ val SpaceSize4XL = 64.dp
 val SpaceSize5XL = 80.dp
 
 
-/*
 val IconSizeS = 15.dp
 val IconSizeMedium = 25.dp
 val IconSizeLarge = 35.dp
-*/
+val IconSizeXlarge = 80.dp
