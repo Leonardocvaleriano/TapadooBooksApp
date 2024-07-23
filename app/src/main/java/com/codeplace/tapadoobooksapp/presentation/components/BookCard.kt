@@ -20,7 +20,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.codeplace.tapadoobooksapp.R
+import com.codeplace.tapadoobooksapp.presentation.core.BookDetails
+import com.codeplace.tapadoobooksapp.presentation.core.BooksList
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSize2XS
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSize3XS
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSize4XS
@@ -38,10 +42,12 @@ fun BookCard(
     isbn: String,
     currencyCode: String,
     price: Int,
+    id:Int,
     modifier: Modifier = Modifier,
+    onNavigateToBookDetails: (id:Int) -> Unit,
 ) {
     Card(
-        onClick = {},
+        onClick = {onNavigateToBookDetails(id) },
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
         //elevation = CardDefaults.cardElevation(0.dp)
         modifier = modifier
@@ -120,7 +126,9 @@ fun BookCardPreview() {
             author = "Lorem ipsum",
             isbn = "22222-333",
             price = 2222,
-            currencyCode = "Euro"
+            currencyCode = "Euro",
+            id = -1,
+            onNavigateToBookDetails = {}
         )
     }
 }

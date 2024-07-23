@@ -12,6 +12,9 @@ plugins {
     id("com.google.dagger.hilt.android")
 
 
+    // Navigation Compose - Safe args
+    id("androidx.navigation.safeargs.kotlin")
+
 
 }
 
@@ -90,14 +93,15 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
     kapt(libs.hilt.android.compiler)
-
-
+    // Allow references to generated code
     kapt.apply {
         correctErrorTypes = true
     }
-    // Allow references to generated code
 
     // ViewModel for Jetpack Compose
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+    // Compose navigation
+    implementation(libs.androidx.navigation.compose)
 
 }

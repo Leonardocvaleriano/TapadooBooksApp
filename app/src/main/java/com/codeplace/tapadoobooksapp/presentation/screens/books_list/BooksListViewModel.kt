@@ -1,4 +1,4 @@
-package com.codeplace.tapadoobooksapp.presentation.screens.books
+package com.codeplace.tapadoobooksapp.presentation.screens.books_list
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class BooksViewModel @Inject constructor(
+class BooksListViewModel @Inject constructor(
     private val repository: TapadooBooksRepository,
 ) : ViewModel() {
 

@@ -1,5 +1,6 @@
-package com.codeplace.tapadoobooksapp.presentation.screens.books
+package com.codeplace.tapadoobooksapp.presentation.screens.books_list
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,33 +10,49 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.codeplace.tapadoobooksapp.R
 import com.codeplace.tapadoobooksapp.data.network.utils.NetworkError
 import com.codeplace.tapadoobooksapp.domain.models.Book
 import com.codeplace.tapadoobooksapp.presentation.components.BookCard
-import com.codeplace.tapadoobooksapp.presentation.components.FormatIntenger
-import com.codeplace.tapadoobooksapp.presentation.screens.core.ErrorScreen
-import com.codeplace.tapadoobooksapp.presentation.screens.core.ErrorScreenRoot
+import com.codeplace.tapadoobooksapp.presentation.core.BookDetails
+import com.codeplace.tapadoobooksapp.presentation.core.BooksList
+import com.codeplace.tapadoobooksapp.presentation.screens.ErrorScreenRoot
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSize4XL
-import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeL
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeM
-import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeS
-import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeXL
 import com.example.compose.TapadooBooksAppTheme
 
+@Composable
+fun BooksListScreenRoot(
+    viewModel: BooksListViewModel = hiltViewModel(),
+    onNavigateToBookDetails: (id:Int) -> Unit,
+) {
+
+    BooksListScreen(
+        books = viewModel.books.value,
+        isLoading = viewModel.isLoading.value,
+        error = viewModel.errorMessage,
+        onNavigateToBookDetails = onNavigateToBookDetails
+    )
+
+}
 
 @Composable
-fun BooksScreen(
+fun BooksListScreen(
+    modifier: Modifier = Modifier,
     books: List<Book>,
     isLoading: Boolean,
     error: NetworkError?,
-    modifier: Modifier = Modifier,
-) {
+    onNavigateToBookDetails: (id:Int) -> Unit,
+
+    ) {
     if (isLoading) {
         Box(
             modifier = modifier.fillMaxSize(),
@@ -73,11 +90,13 @@ fun BooksScreen(
 
             items(books) { bookItem ->
                 BookCard(
+                    onNavigateToBookDetails = onNavigateToBookDetails,
                     title = bookItem.title,
                     author = bookItem.author,
                     isbn = bookItem.isbn,
                     currencyCode = bookItem.currencyCode,
-                    price = bookItem.price
+                    price = bookItem.price,
+                    id = bookItem.id,
                 )
             }
         }
@@ -85,37 +104,42 @@ fun BooksScreen(
 }
 
 
-@Preview
+@Preview(name = "Light Mode", showBackground = true)
+@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
+@Preview(name = "Full Preview", showSystemUi = true)
 @Composable
 fun BooksScreenPreview() {
 
-    TapadooBooksAppTheme {
-        val booksListMock: ArrayList<Book> = ArrayList()
-        val baseTitle = "Lorem ipsum"
-        val increasedTitle = mutableListOf<String>()
-        var currentTitle = baseTitle
+    Surface {
+        TapadooBooksAppTheme {
+            val booksListMock: ArrayList<Book> = ArrayList()
+            val baseTitle = "Lorem ipsum"
+            val increasedTitle = mutableListOf<String>()
+            var currentTitle = baseTitle
 
-        for (i in 1..7) {
-            increasedTitle.add(currentTitle)
-            currentTitle += baseTitle
+            for (i in 1..7) {
+                increasedTitle.add(currentTitle)
+                currentTitle += baseTitle
 
-            booksListMock.add(
-                Book(
-                    id = 1,
-                    title = currentTitle,
-                    author = "John",
-                    isbn = "22222",
-                    price = 3333,
-                    currencyCode = "€"
+                booksListMock.add(
+                    Book(
+                        id = 1,
+                        title = currentTitle,
+                        author = "John",
+                        isbn = "22222",
+                        price = 3333,
+                        currencyCode = "€"
+                    )
                 )
+
+            }
+
+            BooksListScreen(
+                onNavigateToBookDetails = {},
+                books = booksListMock,
+                isLoading = false,
+                error = null,
             )
-
         }
-
-        BooksScreen(
-            books = booksListMock,
-            isLoading = false,
-            error = null
-        )
     }
 }
