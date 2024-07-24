@@ -144,7 +144,8 @@ fun BookDetailsContent(
             currencyCode = bookDetails.currencyCode!!,
             price = bookDetails.price!!,
             onNavigateToBookDetails = {},
-            showViewDetailsText = false
+            showViewDetailsText = false,
+            showRippleEffect = false
         )
         Column(
             modifier = modifier

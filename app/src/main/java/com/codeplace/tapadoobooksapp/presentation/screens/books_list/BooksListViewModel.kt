@@ -24,7 +24,7 @@ class BooksListViewModel @Inject constructor(
     var books by mutableStateOf<List<Book>>(emptyList())
         private set
 
-    var isLoading by mutableStateOf(false)
+    var isLoading by mutableStateOf(true)
         private set
 
     var errorMessage by mutableStateOf<NetworkError?>(null)
@@ -34,18 +34,15 @@ class BooksListViewModel @Inject constructor(
         getBooks()
     }
 
-    fun getBooks() = viewModelScope.launch{
-        isLoading = true
-        repository.getBooks()
-            .onSuccess {
-                isLoading = false
+    fun getBooks() = viewModelScope.launch(Dispatchers.IO) {
+        repository.getBooks().let { response ->
+            response.onSuccess {
                 books = it
                 errorMessage = null
             }.onError {
-                isLoading = false
                 errorMessage = it
             }
-
+        }
         isLoading = false
     }
 }

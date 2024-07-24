@@ -22,22 +22,20 @@ class BookDetailsScreenViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    var bookDetails by mutableStateOf<BookDetails>(BookDetails())
+    var bookDetails by mutableStateOf(BookDetails())
         private set
 
     var errorMessage by mutableStateOf<NetworkError?>(null)
         private set
 
-    var isLoading by mutableStateOf(false)
+    var isLoading by mutableStateOf(true)
     private set
 
 
 
-    fun getBooksDetails(id: Int) = viewModelScope.launch {
-            isLoading = true
+    fun getBooksDetails(id: Int) = viewModelScope.launch(Dispatchers.IO){
             tapadooBooksRepository.getBookDetails(id = id)
                 .onSuccess {
-                    isLoading = false
                     bookDetails = it
                 }
                 .onError {

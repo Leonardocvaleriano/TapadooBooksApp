@@ -54,7 +54,6 @@ fun BooksListScreen(
     onNavigateToBookList: () -> Unit
     ) {
 
-
     if (isLoading) {
         Box(
             modifier = modifier.fillMaxSize(),

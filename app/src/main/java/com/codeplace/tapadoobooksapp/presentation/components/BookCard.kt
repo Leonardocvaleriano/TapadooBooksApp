@@ -1,5 +1,7 @@
 package com.codeplace.tapadoobooksapp.presentation.components
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,6 +12,9 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -25,23 +30,45 @@ import java.text.DecimalFormat
 
 @Composable
 fun BookCard(
+    modifier: Modifier = Modifier,
     title: String,
     author: String,
     isbn: String,
     currencyCode: String,
     price: Int,
-    id:Int? = -1,
-    modifier: Modifier = Modifier,
-    onNavigateToBookDetails: (id:Int) -> Unit,
-    showViewDetailsText:Boolean? = true
+    id: Int? = -1,
+    onNavigateToBookDetails: (id: Int) -> Unit,
+    showViewDetailsText: Boolean? = true,
+    showRippleEffect: Boolean = true,
 ) {
+
+    val rippleEnabled by remember { mutableStateOf(showRippleEffect) }
+    val interactionSource = remember { MutableInteractionSource() }
+
     Card(
-        onClick = {onNavigateToBookDetails(id!!) },
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
-        //elevation = CardDefaults.cardElevation(0.dp)
         modifier = modifier
             .fillMaxWidth()
-    ) {
+            .then(
+                if (rippleEnabled) {
+                    Modifier.clickable {
+                        onNavigateToBookDetails(id!!)
+                    }
+
+                } else {
+                    Modifier.clickable(
+                        interactionSource = interactionSource,
+                        indication = null
+                    ) {
+                    }
+
+                }
+
+            ),
+        //onClick = {onNavigateToBookDetails(id!!)},
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
+
+
+        ) {
         Row(
             modifier = modifier
                 .fillMaxWidth()
@@ -55,7 +82,7 @@ fun BookCard(
                 Column(verticalArrangement = Arrangement.spacedBy(SpaceSize3XS)) {
                     Text(
                         modifier = modifier.fillMaxWidth(0.9f),
-                        text = if (showViewDetailsText!!){
+                        text = if (showViewDetailsText!!) {
                             FormatTitleSize(title)
                         } else {
                             title
@@ -76,7 +103,7 @@ fun BookCard(
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
-                if (showViewDetailsText!!){
+                if (showViewDetailsText!!) {
                     Text(
                         text = stringResource(R.string.button_view_details),
                         style = MaterialTheme.typography.bodyMedium,
@@ -145,7 +172,3 @@ fun FormatTitleSize(title: String): String {
         title
     }
 }
-
-
-
-
