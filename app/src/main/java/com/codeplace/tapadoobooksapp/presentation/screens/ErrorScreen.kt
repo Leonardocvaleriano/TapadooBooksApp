@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.codeplace.tapadoobooksapp.R
+import com.codeplace.tapadoobooksapp.data.network.utils.NetworkError
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.IconSizeXlarge
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeM
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeS
@@ -72,9 +73,16 @@ fun ErrorScreen(
                     ),
                     onClick = {onNavigateToBookList.invoke() },
                 ) {
-                    Text(
-                        text = stringResource(id = R.string.button_reload)
-                    )
+                    if (error == NetworkError.SERVER_ERROR.name){
+                        Text(
+                            text = stringResource(id = R.string.button_go_back)
+                        )
+                    } else{
+                        Text(
+                            text = stringResource(id = R.string.button_reload)
+                        )
+                    }
+
                 }
             }
 

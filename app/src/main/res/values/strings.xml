@@ -5,4 +5,7 @@
     <string name="button_view_details">View Details</string>
     <string name="title_error">Oops, something went wrong!</string>
     <string name="button_reload">Reload</string>
+    <string name="title_description">Description</string>
+    <string name="topAppBar_title_details">Details</string>
+    <string name="button_go_back">Go back</string>
 </resources>
