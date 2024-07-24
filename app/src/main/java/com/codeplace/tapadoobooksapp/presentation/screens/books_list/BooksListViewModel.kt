@@ -38,7 +38,6 @@ class BooksListViewModel @Inject constructor(
         repository.getBooks().let { response ->
             response.onSuccess {
                 books = it
-                errorMessage = null
             }.onError {
                 errorMessage = it
             }
