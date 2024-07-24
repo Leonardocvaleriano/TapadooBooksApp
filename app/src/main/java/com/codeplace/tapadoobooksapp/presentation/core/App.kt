@@ -43,7 +43,6 @@ fun App() {
         }
 
         composable<Error> {
-
             ErrorScreen(
                 onNavigateToBookList = {
                     navController.navigate(route = BooksList)

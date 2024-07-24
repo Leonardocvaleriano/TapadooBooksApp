@@ -2,6 +2,7 @@
 
 package com.codeplace.tapadoobooksapp.presentation.screens.book_details
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,14 +31,10 @@ import com.codeplace.tapadoobooksapp.data.network.utils.NetworkError
 import com.codeplace.tapadoobooksapp.domain.models.BookDetails
 import com.codeplace.tapadoobooksapp.presentation.components.BookCard
 import com.codeplace.tapadoobooksapp.presentation.screens.ErrorScreen
-import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSize2XL
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSize2XS
-import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSize3XS
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeL
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeM
-import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeS
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeXL
-import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeXS
 import com.example.compose.TapadooBooksAppTheme
 
 
@@ -174,8 +171,8 @@ fun BookDetailsContent(
 
 @Composable
 @Preview(name = "Light Mode", showBackground = true)
-//@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
-//@Preview(name = "Full Preview", showSystemUi = true)
+@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
+@Preview(name = "Full Preview", showSystemUi = true)
 fun BookDetailsScreenPreview() {
     TapadooBooksAppTheme {
         BookDetailsScreen(
