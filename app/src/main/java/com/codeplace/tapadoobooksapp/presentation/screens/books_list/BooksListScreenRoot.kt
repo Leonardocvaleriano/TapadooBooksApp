@@ -69,43 +69,59 @@ fun BooksListScreen(
             onNavigateToBookList =  onNavigateToBookList)
 
     } else {
-        LazyColumn(
-            modifier = modifier.padding(
-                top = SpaceSize4XL,
-                start = SpaceSizeM,
-                end = SpaceSizeM,
-                bottom = SpaceSize4XL
-            ), verticalArrangement = Arrangement.spacedBy(SpaceSizeM)
-        ) {
-            item {
-                Column(verticalArrangement = Arrangement.spacedBy(SpaceSizeM)) {
-                    Text(
-                        text = stringResource(id = R.string.headline_hello),
-                        style = MaterialTheme.typography.headlineMedium,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                    Text(
-                        text = stringResource(id = R.string.title_tapadoo_books),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
+        BookListContent(
+            books = books,
+            onNavigateToBookDetails = onNavigateToBookDetails
+        )
+    }
+}
 
-            items(books) { bookItem ->
-                BookCard(
-                    onNavigateToBookDetails = onNavigateToBookDetails,
-                    title = bookItem.title,
-                    author = bookItem.author,
-                    isbn = bookItem.isbn,
-                    currencyCode = bookItem.currencyCode,
-                    price = bookItem.price,
-                    id = bookItem.id,
+
+@Composable
+fun BookListContent(
+    modifier: Modifier = Modifier,
+    books: List<Book>,
+    onNavigateToBookDetails: (id:Int) -> Unit
+){
+    LazyColumn(
+        modifier = modifier.padding(
+            top = SpaceSize4XL,
+            start = SpaceSizeM,
+            end = SpaceSizeM,
+            bottom = SpaceSize4XL
+        ), verticalArrangement = Arrangement.spacedBy(SpaceSizeM)
+    ) {
+        item {
+            Column(verticalArrangement = Arrangement.spacedBy(SpaceSizeM)) {
+                Text(
+                    text = stringResource(id = R.string.headline_hello),
+                    style = MaterialTheme.typography.headlineMedium,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Text(
+                    text = stringResource(id = R.string.title_tapadoo_books),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
+
+        items(books) { bookItem ->
+            BookCard(
+                onNavigateToBookDetails = onNavigateToBookDetails,
+                title = bookItem.title,
+                author = bookItem.author,
+                isbn = bookItem.isbn,
+                currencyCode = bookItem.currencyCode,
+                price = bookItem.price,
+                id = bookItem.id,
+            )
+        }
     }
 }
+
+
+
 
 
 @Preview(name = "Light Mode", showBackground = true)
