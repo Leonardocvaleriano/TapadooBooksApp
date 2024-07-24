@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.codeplace.tapadoobooksapp.presentation.screens.ErrorScreen
 import com.codeplace.tapadoobooksapp.presentation.screens.book_details.BookDetailsScreenRoot
 import com.codeplace.tapadoobooksapp.presentation.screens.books_list.BooksListScreenRoot
 import kotlinx.serialization.Serializable
@@ -13,7 +14,11 @@ import kotlinx.serialization.Serializable
 object BooksList
 
 @Serializable
-data class BookDetails(val id:Int)
+data class BookDetails(val id: Int)
+
+@Serializable
+object Error
+
 
 @Composable
 fun App() {
@@ -25,14 +30,27 @@ fun App() {
             BooksListScreenRoot(
                 onNavigateToBookDetails = { id ->
                     navController.navigate(route = BookDetails(id))
+                }, onNavigateToBookList = {
+                    navController.navigate(route = BooksList)
                 }
             )
         }
         composable<BookDetails> { backStackEntry ->
             val bookDetails: BookDetails = backStackEntry.toRoute()
+            BookDetailsScreenRoot(id = bookDetails.id, onNavigateToBookList = {
+                navController.navigate(route = BooksList)
+            })
+        }
 
-            BookDetailsScreenRoot(id = bookDetails.id)
-            }
+        composable<Error> {
+
+            ErrorScreen(
+                onNavigateToBookList = {
+                    navController.navigate(route = BooksList)
+                }
+            )
         }
 
     }
+
+}

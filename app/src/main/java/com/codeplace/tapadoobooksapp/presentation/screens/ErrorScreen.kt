@@ -18,34 +18,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.codeplace.tapadoobooksapp.R
-import com.codeplace.tapadoobooksapp.presentation.screens.books_list.BooksListViewModel
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.IconSizeXlarge
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeM
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeS
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeXL
 import com.example.compose.TapadooBooksAppTheme
 
-@Composable
-fun ErrorScreenRoot(
-    error: String,
-    viewModel: BooksListViewModel = hiltViewModel(),
-) {
-    ErrorScreen(
-        error = error,
-        onReloadClick = { viewModel.getBooks() }
-    )
-
-}
 
 @Composable
 fun ErrorScreen(
-    onReloadClick: () -> Unit,
+    onNavigateToBookList: () -> Unit,
     modifier: Modifier = Modifier,
-    error: String,
+    error: String? = null
 ) {
-
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -69,7 +55,7 @@ fun ErrorScreen(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
-                text = error,
+                text = error!!,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -84,7 +70,7 @@ fun ErrorScreen(
                         containerColor = MaterialTheme.colorScheme.primary,
                         contentColor = MaterialTheme.colorScheme.onPrimary,
                     ),
-                    onClick = { onReloadClick.invoke() },
+                    onClick = {onNavigateToBookList.invoke() },
                 ) {
                     Text(
                         text = stringResource(id = R.string.button_reload)
@@ -102,7 +88,7 @@ fun ErrorScreen(
 fun ErrorScreenPreview(showBackground: Boolean = true) {
     TapadooBooksAppTheme {
         ErrorScreen(
-            onReloadClick = {},
+            onNavigateToBookList = {},
             error = "Error message"
         )
     }

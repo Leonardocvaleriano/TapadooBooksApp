@@ -3,11 +3,8 @@ package com.codeplace.tapadoobooksapp.presentation.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -15,24 +12,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.codeplace.tapadoobooksapp.R
-import com.codeplace.tapadoobooksapp.presentation.core.BookDetails
-import com.codeplace.tapadoobooksapp.presentation.core.BooksList
-import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSize2XS
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSize3XS
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSize4XS
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeM
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeS
-import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeXS
 import com.example.compose.TapadooBooksAppTheme
-import java.math.BigDecimal
 import java.text.DecimalFormat
 
 @Composable
@@ -42,12 +30,13 @@ fun BookCard(
     isbn: String,
     currencyCode: String,
     price: Int,
-    id:Int,
+    id:Int? = -1,
     modifier: Modifier = Modifier,
     onNavigateToBookDetails: (id:Int) -> Unit,
+    showViewDetailsText:Boolean? = true
 ) {
     Card(
-        onClick = {onNavigateToBookDetails(id) },
+        onClick = {onNavigateToBookDetails(id!!) },
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
         //elevation = CardDefaults.cardElevation(0.dp)
         modifier = modifier
@@ -66,7 +55,11 @@ fun BookCard(
                 Column(verticalArrangement = Arrangement.spacedBy(SpaceSize3XS)) {
                     Text(
                         modifier = modifier.fillMaxWidth(0.9f),
-                        text = FormatTitleSize(title),
+                        text = if (showViewDetailsText!!){
+                            FormatTitleSize(title)
+                        } else {
+                            title
+                        },
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -83,12 +76,16 @@ fun BookCard(
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
-                Text(
-                    text = stringResource(R.string.button_view_details),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Medium
-                )
+                if (showViewDetailsText!!){
+                    Text(
+                        text = stringResource(R.string.button_view_details),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Medium
+                    )
+
+                }
+
 
             }
             Column() {

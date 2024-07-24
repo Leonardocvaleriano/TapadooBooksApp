@@ -1,4 +1,4 @@
-package com.codeplace.tapadoobooksapp.presentation.screens.books_list
+package com.codeplace.tapadoobooksapp.presentation.screens.book_details
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.codeplace.tapadoobooksapp.data.network.utils.NetworkError
 import com.codeplace.tapadoobooksapp.data.network.utils.onError
 import com.codeplace.tapadoobooksapp.data.network.utils.onSuccess
-import com.codeplace.tapadoobooksapp.domain.models.Book
+import com.codeplace.tapadoobooksapp.domain.models.BookDetails
 import com.codeplace.tapadoobooksapp.domain.repository.TapadooBooksRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -17,35 +17,33 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class BooksListViewModel @Inject constructor(
-    private val repository: TapadooBooksRepository,
+class BookDetailsScreenViewModel @Inject constructor(
+    val tapadooBooksRepository: TapadooBooksRepository,
 ) : ViewModel() {
 
-    var books by mutableStateOf<List<Book>>(emptyList())
-        private set
 
-    var isLoading by mutableStateOf(false)
+    var bookDetails by mutableStateOf<BookDetails>(BookDetails())
         private set
 
     var errorMessage by mutableStateOf<NetworkError?>(null)
         private set
 
-    init {
-        getBooks()
-    }
+    var isLoading by mutableStateOf(false)
+    private set
 
-    fun getBooks() = viewModelScope.launch{
-        isLoading = true
-        repository.getBooks()
-            .onSuccess {
-                isLoading = false
-                books = it
-                errorMessage = null
-            }.onError {
-                isLoading = false
-                errorMessage = it
-            }
 
+
+    fun getBooksDetails(id: Int) = viewModelScope.launch {
+            isLoading = true
+            tapadooBooksRepository.getBookDetails(id = id)
+                .onSuccess {
+                    isLoading = false
+                    bookDetails = it
+                }
+                .onError {
+                     errorMessage = it
+                }
         isLoading = false
+        }
+
     }
-}

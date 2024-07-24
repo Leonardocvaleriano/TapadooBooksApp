@@ -17,14 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.codeplace.tapadoobooksapp.R
 import com.codeplace.tapadoobooksapp.data.network.utils.NetworkError
 import com.codeplace.tapadoobooksapp.domain.models.Book
 import com.codeplace.tapadoobooksapp.presentation.components.BookCard
-import com.codeplace.tapadoobooksapp.presentation.core.BookDetails
-import com.codeplace.tapadoobooksapp.presentation.core.BooksList
-import com.codeplace.tapadoobooksapp.presentation.screens.ErrorScreenRoot
+import com.codeplace.tapadoobooksapp.presentation.screens.ErrorScreen
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSize4XL
 import com.codeplace.tapadoobooksapp.presentation.ui.theme.SpaceSizeM
 import com.example.compose.TapadooBooksAppTheme
@@ -33,13 +30,16 @@ import com.example.compose.TapadooBooksAppTheme
 fun BooksListScreenRoot(
     viewModel: BooksListViewModel = hiltViewModel(),
     onNavigateToBookDetails: (id:Int) -> Unit,
+    onNavigateToBookList: () -> Unit
 ) {
 
     BooksListScreen(
-        books = viewModel.books.value,
-        isLoading = viewModel.isLoading.value,
+        books = viewModel.books,
+        isLoading = viewModel.isLoading,
         error = viewModel.errorMessage,
-        onNavigateToBookDetails = onNavigateToBookDetails
+        onNavigateToBookDetails = onNavigateToBookDetails,
+        onNavigateToBookList = onNavigateToBookList
+
     )
 
 }
@@ -51,8 +51,10 @@ fun BooksListScreen(
     isLoading: Boolean,
     error: NetworkError?,
     onNavigateToBookDetails: (id:Int) -> Unit,
-
+    onNavigateToBookList: () -> Unit
     ) {
+
+
     if (isLoading) {
         Box(
             modifier = modifier.fillMaxSize(),
@@ -63,7 +65,10 @@ fun BooksListScreen(
             )
         }
     } else if (error != null) {
-        ErrorScreenRoot(error = error.name)
+        ErrorScreen(
+            error = error.name,
+            onNavigateToBookList =  onNavigateToBookList)
+
     } else {
         LazyColumn(
             modifier = modifier.padding(
@@ -139,6 +144,7 @@ fun BooksScreenPreview() {
                 books = booksListMock,
                 isLoading = false,
                 error = null,
+                onNavigateToBookList = {}
             )
         }
     }
